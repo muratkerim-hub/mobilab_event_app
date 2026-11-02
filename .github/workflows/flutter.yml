@@ -1,0 +1,32 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  analyze_and_test:
+    name: Statik Analiz ve Testler
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kaynak kodu indir
+        uses: actions/checkout@v4
+
+      - name: Flutter ortamını kur
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Bağımlılıkları yükle
+        run: flutter pub get
+
+      - name: Statik kod analizi çalıştır
+        run: flutter analyze
+
+      - name: Birim ve widget testlerini çalıştır
+        run: flutter test
+
